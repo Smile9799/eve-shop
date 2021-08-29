@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:replace="master/master-admin :: master-head">
+</head>
+
+<body>
+<div id="app">
+    <div th:replace="master/master-admin :: master-side-bar"></div>
+
+    <div id="main">
+        <header class="mb-3">
+            <a href="#" class="burger-btn d-block d-xl-none">
+                <i class="bi bi-justify fs-3"></i>
+            </a>
+        </header>
+
+        <div class="page-heading">
+            <h3>Product List</h3>
+        </div>
+
+        <section class="section">
+            <div class="row" id="table-striped">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">Striped rows</h4>
+                        </div>
+                        <div class="card-content">
+                            <div class="card-body">
+                                <p class="card-text">Use <code class="highlighter-rouge">.table-striped</code> to add
+                                    zebra-striping to any
+                                    table row within the <code class="highlighter-rouge">&lt;tbody&gt;</code>. This styling
+                                    doesn't work in IE8
+                                    and below as <code>:nth-child</code> CSS selector isn't supported.</p>
+                            </div>
+                            <!-- table striped -->
+                            <div class="table-responsive">
+                                <table class="table table-striped mb-0">
+                                    <thead>
+                                    <tr>
+                                        <th>Product Name</th>
+                                        <th>Product Price</th>
+                                        <th>Product Quantity</th>
+                                        <th>Product Active?</th>
+                                        <th>Category</th>
+                                        <th>ACTION</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:each="product : ${products}">
+                                        <td class="text-bold-500" th:text="${product.getProductName()}"></td>
+                                        <td>R <span th:text="${product.getProductPrice()}"></span></td>
+                                        <td class="text-bold-500" th:text="${product.getProductQuantity()}"></td>
+                                        <td> <span th:if="${product.isActive()}">Yes</span> <span th:unless="${product.isActive()}"> No</span></td>
+                                        <td th:text="${product.getProductCategory().getCategoryName()}"></td>
+                                        <td> <a th:href="@{/manage(product=${product.getProductName()})}" class="btn btn-secondary">Manage</a></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Striped rows end -->
+
+        <footer th:replace="master/master-admin :: master-footer"></footer>
+    </div>
+</div>
+<div th:replace="master/master-admin :: master-scripts"></div>
+</body>
+
+</html>

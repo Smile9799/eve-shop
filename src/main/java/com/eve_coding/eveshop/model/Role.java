@@ -1,0 +1,40 @@
+package com.eve_coding.eveshop.model;
+
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+
+import javax.persistence.*;
+import java.util.Set;
+
+@Entity
+@Table(name = "tbl_roles")
+@Getter
+@Setter
+public class Role {
+    @Id
+    @SequenceGenerator(
+            name = "role_sequence",
+            sequenceName = "role_sequence",
+            allocationSize = 1
+    )
+    @GeneratedValue(
+            generator = "role_sequence",
+            strategy = GenerationType.SEQUENCE
+    )
+    private Long roleId;
+    private String roleName;
+    private String roleDescription;
+
+    @ManyToMany(mappedBy = "roles")
+    private Set<User> users;
+
+    public Role(String roleName, String roleDescription){
+        this.roleName = roleName;
+        this.roleDescription = roleDescription;
+    }
+
+    public Role() {
+
+    }
+}
