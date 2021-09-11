@@ -29,11 +29,20 @@
                 <h4 class="card-title">Product</h4>
               </div>
 
-              <form method="post" th:action="@{/adminAddNewProduct}" th:object="${product}">
-               <div class="card-body">
-                <div class="row">
-                  <div class="col-md-6">
+              <form method="post" th:action="@{/admin/adminUpdateProduct}" th:object="${product}" enctype="multipart/form-data">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-md-6">
+
+                    </div>
+
+                    <div class="col-md-6">
+
+                    </div>
+
                     <div class="form-group">
+                      <input type="hidden" th:field="*{productId}">
+                      <input type="hidden" th:field="*{productImgStr}">
                       <label for="basicInput">Product name <span style="color: red;">*</span></label>
                       <input type="text" class="form-control" id="basicInput" placeholder="Product Name" th:field="*{productName}">
                     </div>
@@ -52,21 +61,20 @@
                       <p><small class="text-muted">Detailed information about the product.</small></p>
                     </div>
 
-<!--                    <div class="input-group mb-3">-->
-<!--                      <label>Product image <span style="color: red;">*</span></label>-->
-<!--                      <div class="input-group mb-3">-->
-<!--                        <label class="input-group-text" for="inputGroupFile01"><i-->
-<!--                                class="bi bi-upload"></i></label>-->
-<!--                        <input type="file" class="form-control" id="inputGroupFile01">-->
-<!--                      </div>-->
-<!--                    </div>-->
+                    <div class="input-group mb-3">
+                      <label>Product image <span style="color: red;">*</span></label>
+                      <div class="input-group mb-3">
+                        <label class="input-group-text" for="inputGroupFile01"><i
+                                class="bi bi-upload"></i></label>
+                        <input type="file" class="form-control" id="inputGroupFile01" th:field="*{multipartFile}">
+                      </div>
+                    </div>
 
                     <div class="form-group">
                       <label>Products in stock <span style="color: red;">*</span></label>
                       <input type="number" class="form-control" th:field="*{productQuantity}">
                     </div>
-                  </div>
-                  <div class="col-md-6">
+
                     <div class="form-group">
                       <label>Product original price <span style="color: red;">*</span></label>
                       <div class="col-sm-6 mb-1">
@@ -107,6 +115,7 @@
                         </div>
                       </div>
                     </div>
+
                     <div class="form-group mb-3">
                       <label>Is this item active? <span style="color: red;">*</span></label>
                       <div class="form-control">
@@ -125,12 +134,12 @@
                         </div>
                       </div>
                     </div>
+
                     <div class="form-group">
-                      <input type="submit" class="btn btn-primary" value="Add new product">
+                      <input type="submit" class="btn btn-primary" value="Update product">
                     </div>
                   </div>
                 </div>
-              </div>
               </form>
             </div>
           </section>

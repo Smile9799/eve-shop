@@ -45,8 +45,8 @@
         <div class="col-md-8">
           <div class="user-menu">
             <ul>
-              <li sec:authorize="isAuthenticated()"><a href="#"><i class="fa fa-user"></i> My Account</a></li>
-              <li sec:authorize="isAuthenticated()"><a href="cart.html"><i class="fa fa-shopping-cart"></i> My Cart</a></li>
+              <li sec:authorize="isAuthenticated()"><a th:href="@{/account}"><i class="fa fa-user"></i> My Account</a></li>
+              <li sec:authorize="isAuthenticated()"><a th:href="@{/cart}"><i class="fa fa-shopping-cart"></i> My Cart</a></li>
               <li sec:authorize="isAnonymous()"><a th:href="@{/login}"><i class="fa fa-unlock"></i> Login</a></li>
               <li sec:authorize="isAnonymous()"><a th:href="@{/registration}"><i class="fa fa-user"></i> Register</a></li>
               <li sec:authorize="isAuthenticated()"><a th:href="@{/logout}"><i class="fa fa-lock"></i> Logout</a></li>
@@ -68,7 +68,7 @@
 
         <div class="col-sm-6">
           <div class="shopping-item">
-            <a href="cart.html">Cart - <span class="cart-amunt">$100</span> <i class="fa fa-shopping-cart"></i> <span class="product-count">5</span></a>
+            <a th:href="@{/cart}">Cart <i class="fa fa-shopping-cart"></i></a>
           </div>
         </div>
       </div>
@@ -88,11 +88,11 @@
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-            <li class="active"><a href="index.html">Home</a></li>
-            <li><a href="shop.html">Shop page</a></li>
-            <li sec:authorize="hasAuthority('ADMIN')"><a th:href="@{/dashboard}">Admin Panel</a></li>
-            <li><a href="#">Category</a></li>
-            <li><a href="#">Contact</a></li>
+            <li class="active"><a th:href="@{/}">Home</a></li>
+            <li><a th:href="@{/shop}">Shop page</a></li>
+            <li><a th:href="@{/categories}">Category page</a></li>
+            <li sec:authorize="hasAuthority('ADMIN')"><a th:href="@{/admin/dashboard}">Admin Panel</a></li>
+            <li><a th:href="@{/}">Contact</a></li>
           </ul>
         </div>
       </div>
@@ -186,6 +186,7 @@
 <div th:fragment="master-scripts">
   <!-- Latest jQuery form server -->
   <script th:src="@{https://code.jquery.com/jquery.min.js}"></script>
+  <script th:src="@{/js/script.js}"></script>
 
   <!-- Bootstrap JS form CDN -->
   <script th:src="@{http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js}"></script>

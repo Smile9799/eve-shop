@@ -25,16 +25,9 @@
             <div class="row" id="table-striped">
                 <div class="col-12">
                     <div class="card">
-                        <div class="card-header">
-                            <h4 class="card-title">Striped rows</h4>
-                        </div>
                         <div class="card-content">
                             <div class="card-body">
-                                <p class="card-text">Use <code class="highlighter-rouge">.table-striped</code> to add
-                                    zebra-striping to any
-                                    table row within the <code class="highlighter-rouge">&lt;tbody&gt;</code>. This styling
-                                    doesn't work in IE8
-                                    and below as <code>:nth-child</code> CSS selector isn't supported.</p>
+                               <a th:href="@{/admin/add/product}" class="btn-lg btn-primary">Add new product</a>
                             </div>
                             <!-- table striped -->
                             <div class="table-responsive">
@@ -56,7 +49,7 @@
                                         <td class="text-bold-500" th:text="${product.getProductQuantity()}"></td>
                                         <td> <span th:if="${product.isActive()}">Yes</span> <span th:unless="${product.isActive()}"> No</span></td>
                                         <td th:text="${product.getProductCategory().getCategoryName()}"></td>
-                                        <td> <a th:href="@{/manage(product=${product.getProductName()})}" class="btn btn-secondary">Manage</a></td>
+                                        <td> <a th:href="@{/admin/manage(product=${product.getProductName()})}" class="btn btn-secondary">Manage</a></td>
                                     </tr>
                                     </tbody>
                                 </table>

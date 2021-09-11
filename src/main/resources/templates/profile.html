@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="master/master-page :: master-header">
+</head>
+<body>
+
+<div th:replace="master/master-page :: master-nav"></div>
+
+<div class="container">
+    <div class="row" style="margin-top: 60px;">
+        <div class="col-xs-9 col-xs-offset-3">
+
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs">
+                <li th:classappend="${classActiveEdit}? 'active'"><a
+                        href="#tab-1" data-toggle="tab"><span style="color: red;">Edit</span></a></li>
+                <li th:classappend="${classActiveOrders}? 'active'"><a
+                        th:href="@{/orders}" ><span style="color: red;">Orders</span></a></li>
+                <li th:classappend="${classActiveShipping}? 'active'"><a
+                        th:href="@{/shippingAddresses}"><span style="color: red;">Shipping</span></a></li>
+            </ul>
+
+            <!-- Tab panels -->
+            <div class="tab-content">
+
+                <!-- Edit user information -->
+                <div class="tab-pane fade" id="tab-1"
+                     th:classappend="${classActiveEdit}? 'in active'">
+                    <div class="panel-group">
+                        <div class="panel panel-default" style="border: none;">
+                            <div class="panel-body"
+                                 style="background-color: #ededed; margin-top: 20px;">
+
+                                <div class="alert alert-danger" th:if="${incorrectPassword}">
+                                    <strong>Incorrect Password!</strong> Please enter the
+                                    correct password for the current user.
+                                </div>
+
+                                <div class="alert alert-succss" th:if="${updateSuccess}">
+                                    <strong style="color: green">Update Successfully!!!</strong>
+                                </div>
+
+                                <form th:action="@{/updateUserInfo}" method="post" th:object="${user}">
+                                    <input type="hidden" th:name="userId" th:field="*{userId}" />
+
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-xs-6">
+                                                <label for="firstName">First Name</label> <input
+                                                    type="text" class="form-control" id="firstName"
+                                                    th:name="firstName" th:field="*{firstName}" />
+                                            </div>
+                                            <div class="col-xs-6">
+                                                <label for="lastName">Last Name</label> <input
+                                                    type="text" class="form-control" id="lastName"
+                                                    th:name="lastName" th:field="*{lastName}" />
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="currentPassword">Current Password</label> <input
+                                            type="password" class="form-control" id="currentPassword"
+                                            name="password" />
+                                    </div>
+                                    <p style="color: #828282">Enter your current password to
+                                        change the email address or password.</p>
+
+                                    <div class="form-group">
+                                        <label for="email">* Email Address</label> <input
+                                            type="email" class="form-control" id="email" th:name="email"
+                                            th:field="*{email}" disabled th:value="${user.getEmail()}"/>
+                                    </div>
+                                    <p style="color: #828282">A valid email address. All
+                                        emails from the system withll be sent to this address. The
+                                        email address is not made public and will only be used if
+                                        you wish to receive a new password or wish to receive
+                                        certain notification.</p>
+
+                                    <div class="form-group">
+                                        <label for="txtNewPassword">Password</label>&nbsp;<span
+                                            id="checkPasswordMatch" style="color: red;"></span> <input
+                                            type="password" class="form-control" id="txtNewPassword"
+                                            name="newPassword" />
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="txtConfirmPassword">Confirm Password</label> <input
+                                            type="password" class="form-control"
+                                            id="txtConfirmPassword" />
+                                    </div>
+                                    <p style="color: #828282">To change the current user
+                                        password, enter the new password in both fields.</p>
+
+                                    <button id="updateUserInfoButton" type="submit"
+                                            class="btn btn-primary">Save All</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-pane fade" id="tab-2"
+                     th:classappend="${classActiveOrders}? 'in active'">
+                    <div class="panel-group">
+                        <div class="panel panel-default" style="border: none;">
+                            <div class="panel-body"
+                                 style="background-color: #ededed; margin-top: 20px;">
+
+                                <table class="table table-sm table-inverse">
+                                    <thead>
+                                    <tr>
+                                        <th>Order Date</th>
+                                        <th>Order Number</th>
+                                        <th>Total</th>
+                                        <th>Status</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:each="order : ${orderList}">
+                                        <td><a th:href="@{/orderDetail(id=${order.getOrderId()})}"><span
+                                                th:text="${order.getOrderDate()}"></span></a></td>
+                                        <td data-th-text="${order.getOrderId()}"></td>
+                                        <td data-th-text="${order.getOrderTotal()}"></td>
+                                        <td data-th-text="${order.getOrderStatus()}"></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+
+                                <div th:if="${displayOrderDetail}">
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <div class="text-center">
+                                                <h2>
+                                                    Order Detail for Purchase #<span th:text="${order.getOrderId()}"></span>
+                                                </h2>
+                                            </div>
+                                            <hr />
+
+                                            <div class="row">
+                                                <div class="col-xs-4">
+                                                    <div class="panel panel-default height">
+                                                        <div class="panel-heading">
+                                                            <strong>Billing Details</strong>
+                                                        </div>
+                                                        <div class="panel-body">
+																		<span
+                                                                                th:text="${order.getOrderBillingAddress().getOrderBillingAddressName()}"></span><br />
+                                                            <span
+                                                                    th:text="${order.getOrderBillingAddress().getOrderBillingAddressStreet1()}+' '+${order.getOrderBillingAddress().getOrderBillingAddressStreet2()}"></span><br />
+                                                            <span
+                                                                    th:text="${order.getOrderBillingAddress().getOrderBillingAddressCity()}"></span><br />
+                                                            <span
+                                                                    th:text="${order.getOrderBillingAddress().getOrderBillingAddressProvince()}"></span><br />
+                                                            <span
+                                                                    th:text="${order.getOrderBillingAddress().getOrderBillingAddressZipCode()}"></span><br />
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-xs-4">
+                                                    <div class="panel panel-default height">
+                                                        <div class="panel-heading">
+                                                            <strong>Payment Information</strong>
+                                                        </div>
+                                                        <div class="panel-body">
+<!--																		<span th:text="${order.payment.holderName}">Card-->
+<!--																			Name</span><br /> <span-->
+<!--                                                                th:text="${order.payment.cardNumber}">Card-->
+<!--																			Number</span><br /> <span>Exp Date:</span><span-->
+<!--                                                                th:text="${order.payment.expiryMonth}"></span>/<span-->
+<!--                                                                th:text="${order.payment.expiryYear}"></span><br />-->
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-xs-4">
+                                                    <div class="panel panel-default height">
+                                                        <div class="panel-heading">
+                                                            <strong>Shipping Details</strong>
+                                                        </div>
+                                                        <div class="panel-body">
+																		<span
+                                                                                th:text="${order.getOrderShippingAddress().getOrderShippingAddressName()}"></span><br />
+                                                            <span
+                                                                    th:text="${order.getOrderShippingAddress().getOrderShippingAddressStreet1()}+' '+${order.getOrderShippingAddress().getOrderShippingAddressStreet2()}"></span><br />
+                                                            <span
+                                                                    th:text="${order.getOrderShippingAddress().getOrderShippingAddressCity()}"></span><br />
+                                                            <span
+                                                                    th:text="${order.getOrderShippingAddress().getOrderShippingAddressProvince()}"></span><br />
+                                                            <span
+                                                                    th:text="${order.getOrderShippingAddress().getOrderShippingAddressZipCode()}"></span><br />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="panel-heading">
+                                                <h3 class="text-center">
+                                                    <strong>Order Summary</strong>
+                                                </h3>
+                                            </div>
+                                            <div class="panel-body">
+                                                <div class="table-responsive">
+                                                    <table class="table table-condensed">
+                                                        <thead>
+                                                        <tr>
+                                                            <td><strong>Item Name</strong></td>
+                                                            <td class="text-center"><strong>Item
+                                                                Price</strong></td>
+                                                            <td class="text-center"><strong>Item
+                                                                Quantity</strong></td>
+                                                            <td class="text-right"><strong>Total</strong></td>
+                                                        </tr>
+                                                        </thead>
+
+                                                        <tbody>
+                                                        <tr th:each="cartItem : ${order.getCartItems()}">
+                                                            <td data-th-text="${cartItem.getProduct().getProductName()}"></td>
+                                                            <td class="text-center"
+                                                                data-th-text="${cartItem.getProduct().getProductPrice()}"></td>
+                                                            <td class="text-center"
+                                                                data-th-text="${cartItem.getQty()}"></td>
+                                                            <td class="text-right"
+                                                                data-th-text="${cartItem.getSubTotal()}"></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="emptyrow"><i
+                                                                    class="fa fa-barcode iconbig"></i></td>
+                                                            <td class="emptyrow"></td>
+                                                            <td class="emptyrow text-center"><strong>Total</strong></td>
+                                                            <td class="emptyrow text-right"> R<span th:text="${order.getOrderTotal()}"></span></td>
+                                                        </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-pane fade" id="tab-4"
+                     th:classappend="${classActiveShipping}? 'in active'">
+                    <div class="panel-group">
+                        <div class="panel panel-default" style="border: none;">
+                            <div class="panel-body"
+                                 style="background-color: #ededed; margin-top: 20px;">
+
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item active"><a
+                                            th:href="@{/shippingAddresses}">List of Shipping Addresses</a></li>
+                                    <li class="breadcrumb-item active"><a
+                                            th:href="@{/addShippingAddress}">Add(Update) Shipping Address</a></li>
+                                </ol>
+
+                                <div th:if="${listOfShippingAddresses}">
+                                    <form th:action="@{/setDefaultShippingAddress}" method="post">
+                                        <table class="table">
+                                            <thead>
+                                            <tr>
+                                                <th>Default</th>
+                                                <th>Shipping Address</th>
+                                                <th>Operations</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr th:each="userShipping : ${userShippingList}">
+                                                <td><input type="radio" name="defaultShippingAddressId"
+                                                           th:value="${userShipping.getUserShippingAddressId()}"
+                                                           th:checked="${userShipping.isUserShippingDefault()}"/><span>default</span>
+                                                </td>
+                                                <td th:text="${userShipping.getUserShippingStreet1()}+', '+
+														${userShipping.getUserShippingCity()}+', '+${userShipping.getUserShippingProvince()}"></td>
+                                                <td><a
+                                                        th:href="@{/updateShippingAddress(id=${userShipping.getUserShippingAddressId()})}"><i
+                                                        class="fa fa-pencil"></i></a>&nbsp;&nbsp;<a
+                                                        th:href="@{/removeShippingAddress(id=${userShipping.getUserShippingAddressId()})}"><i
+                                                        class="fa fa-times"></i></a></td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                        <button class="btn btn-primary" type="submit">Save</button>
+                                    </form>
+                                </div>
+
+                                <div th:if="${addNewShippingAddress}">
+                                    <form th:action="@{/addShippingAddress}" method="post" th:object="${userShippingAddress}">
+                                        <!-- Shipping Address -->
+                                        <hr/>
+                                        <div class="form-group">
+                                            <h4>Shipping Address</h4>
+                                        </div>
+                                        <input type="hidden" th:field="*{userShippingAddressId}" th:name="userShippingAddressId">
+                                        <div class="form-group">
+                                            <label for="shippingName">* Name</label>
+                                            <input type="text" class="form-control" id="shippingName" placeholder="Receiver Name" th:name="userShippingName" required="required" th:field="*{userShippingName}"/>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="shippingAddress">* Street Address</label> <input
+                                                type="text" class="form-control" id="shippingAddress"
+                                                placeholder="Street Address 1" th:name="userShippingStreet1"
+                                                required="required"
+                                                th:field="*{userShippingStreet1}"/> <input
+                                                type="text" class="form-control"
+                                                placeholder="Street Address 2" th:name="userShippingStreet2"
+                                                th:field="*{userShippingStreet2}"/>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-xs-4">
+                                                <div class="form-group">
+                                                    <label for="shippingCity">* City</label>
+                                                    <input type="text" class="form-control" id="shippingCity" placeholder="Shipping City" th:name="userShippingCity" required="required" th:field="*{userShippingCity}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-4">
+                                                <div class="form-group">
+                                                    <label for="shippingState">* State</label> <select
+                                                        id="shippingState" class="form-control"
+                                                        th:name="userShippingProvince"
+                                                        th:field="*{userShippingProvince}"
+                                                        required="required">
+                                                    <option value="" disabled="disabled">Please
+                                                        select an option
+                                                    </option>
+                                                    <option th:each="state : ${stateList}" th:text="${state}"
+                                                            th:value="${state}"></option>
+                                                </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-4">
+                                                <div class="form-group">
+                                                    <label for="shippingZipcode">* Zipcode</label> <input
+                                                        type="text" class="form-control" id="shippingZipcode"
+                                                        placeholder="Shipping Zipcode"
+                                                        th:name="userShippingZipCode" required="required"
+                                                        th:field="*{userShippingZipCode}"/>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <hr/>
+                                        <button type="submit" class="btn btn-primary btn-lg">Save
+                                            All
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end of container -->
+
+<div th:replace="master/master-page :: master-footer"></div>
+<div th:replace="master/master-page :: master-scripts"></div>
+
+</body>
+</html>

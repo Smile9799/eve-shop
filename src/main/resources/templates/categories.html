@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="master/master-page :: master-header">
+</head>
+<body>
+
+<div th:replace="master/master-page :: master-nav"></div>
+
+<div class="single-product-area">
+    <div class="zigzag-bottom"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3 col-sm-6" th:each="category : ${categoryList}">
+                <div class="single-shop-product">
+                    <div class="product-upper">
+                        <img th:src="|data:image/png;base64,${category.getCategoryImageStr()}|" alt="">
+                    </div>
+                    <h2><a th:href="@{/category(category=${category.getCategoryName()})}" th:text="${category.getCategoryName()}"></a></h2>
+                    <div class="product-option-shop">
+                        <a th:href="@{/category(category=${category.getCategoryName()})}" class="add_to_cart_button">View</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div th:replace="master/master-page :: master-footer"></div>
+<div th:replace="master/master-page :: master-scripts"></div>
+
+</body>
+</html>

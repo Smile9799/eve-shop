@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -40,6 +41,15 @@ public class User {
             fetch = FetchType.EAGER
     )
     private Set<Role> roles;
+
+    @OneToOne(cascade = CascadeType.ALL,mappedBy = "user")
+    private ShoppingCart shoppingCart;
+
+    @OneToMany(mappedBy = "user")
+    private List<Order> orders;
+
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
+    private List<UserShippingAddress> shippingAddresses;
 
     public User() {
 

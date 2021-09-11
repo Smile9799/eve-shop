@@ -7,230 +7,53 @@
 
 <div th:replace="master/master-page :: master-nav"></div>
 
-<div class="product-big-title-area">
-  <div class="container">
-    <div class="row">
-      <div class="col-md-12">
-        <div class="product-bit-title text-center">
-          <h2>Shop</h2>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-
 <div class="single-product-area">
   <div class="zigzag-bottom"></div>
   <div class="container">
     <div class="row">
-      <div class="col-md-3 col-sm-6">
+      <div class="col-md-3 col-sm-6" th:each="product : ${productsList}">
         <div class="single-shop-product">
           <div class="product-upper">
-            <img src="img/product-2.jpg" alt="">
+            <img th:src="|data:image/png;base64,${product.getProductImgStr()}|" alt="">
           </div>
-          <h2><a href="">Apple new mac book 2015 March :P</a></h2>
+          <h2><a th:href="@{/product(product=${product.getProductName()})}" th:text="${product.getProductName()}"></a></h2>
           <div class="product-carousel-price">
-            <ins>$899.00</ins> <del>$999.00</del>
+            <div th:if="${product.isOnSale()}">
+              <ins> R <span th:text="${product.getProductDiscountedPrice()}"></span> </ins> <del>R <span th:text="${product.getProductPrice()}"></span></del>
+            </div>
+            <div th:unless="${product.isOnSale()}">
+              <ins> R <span th:text="${product.getProductPrice()}"></span></ins>
+            </div>
           </div>
 
           <div class="product-option-shop">
-            <a class="add_to_cart_button" data-quantity="1" data-product_sku="" data-product_id="70" rel="nofollow" href="/canvas/shop/?add-to-cart=70">Add to cart</a>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-3 col-sm-6">
-        <div class="single-shop-product">
-          <div class="product-upper">
-            <img src="img/product-1.jpg" alt="">
-          </div>
-          <h2><a href="">Apple new mac book 2015 March :P</a></h2>
-          <div class="product-carousel-price">
-            <ins>$899.00</ins> <del>$999.00</del>
-          </div>
-
-          <div class="product-option-shop">
-            <a class="add_to_cart_button" data-quantity="1" data-product_sku="" data-product_id="70" rel="nofollow" href="/canvas/shop/?add-to-cart=70">Add to cart</a>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-3 col-sm-6">
-        <div class="single-shop-product">
-          <div class="product-upper">
-            <img src="img/product-3.jpg" alt="">
-          </div>
-          <h2><a href="">Apple new mac book 2015 March :P</a></h2>
-          <div class="product-carousel-price">
-            <ins>$899.00</ins> <del>$999.00</del>
-          </div>
-
-          <div class="product-option-shop">
-            <a class="add_to_cart_button" data-quantity="1" data-product_sku="" data-product_id="70" rel="nofollow" href="/canvas/shop/?add-to-cart=70">Add to cart</a>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-3 col-sm-6">
-        <div class="single-shop-product">
-          <div class="product-upper">
-            <img src="img/product-4.jpg" alt="">
-          </div>
-          <h2><a href="">Apple new mac book 2015 March :P</a></h2>
-          <div class="product-carousel-price">
-            <ins>$899.00</ins> <del>$999.00</del>
-          </div>
-
-          <div class="product-option-shop">
-            <a class="add_to_cart_button" data-quantity="1" data-product_sku="" data-product_id="70" rel="nofollow" href="/canvas/shop/?add-to-cart=70">Add to cart</a>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-3 col-sm-6">
-        <div class="single-shop-product">
-          <div class="product-upper">
-            <img src="img/product-2.jpg" alt="">
-          </div>
-          <h2><a href="">Apple new mac book 2015 March :P</a></h2>
-          <div class="product-carousel-price">
-            <ins>$899.00</ins> <del>$999.00</del>
-          </div>
-
-          <div class="product-option-shop">
-            <a class="add_to_cart_button" data-quantity="1" data-product_sku="" data-product_id="70" rel="nofollow" href="/canvas/shop/?add-to-cart=70">Add to cart</a>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-3 col-sm-6">
-        <div class="single-shop-product">
-          <div class="product-upper">
-            <img src="img/product-1.jpg" alt="">
-          </div>
-          <h2><a href="">Apple new mac book 2015 March :P</a></h2>
-          <div class="product-carousel-price">
-            <ins>$899.00</ins> <del>$999.00</del>
-          </div>
-
-          <div class="product-option-shop">
-            <a class="add_to_cart_button" data-quantity="1" data-product_sku="" data-product_id="70" rel="nofollow" href="/canvas/shop/?add-to-cart=70">Add to cart</a>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-3 col-sm-6">
-        <div class="single-shop-product">
-          <div class="product-upper">
-            <img src="img/product-3.jpg" alt="">
-          </div>
-          <h2><a href="">Apple new mac book 2015 March :P</a></h2>
-          <div class="product-carousel-price">
-            <ins>$899.00</ins> <del>$999.00</del>
-          </div>
-
-          <div class="product-option-shop">
-            <a class="add_to_cart_button" data-quantity="1" data-product_sku="" data-product_id="70" rel="nofollow" href="/canvas/shop/?add-to-cart=70">Add to cart</a>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-3 col-sm-6">
-        <div class="single-shop-product">
-          <div class="product-upper">
-            <img src="img/product-4.jpg" alt="">
-          </div>
-          <h2><a href="">Apple new mac book 2015 March :P</a></h2>
-          <div class="product-carousel-price">
-            <ins>$899.00</ins> <del>$999.00</del>
-          </div>
-
-          <div class="product-option-shop">
-            <a class="add_to_cart_button" data-quantity="1" data-product_sku="" data-product_id="70" rel="nofollow" href="/canvas/shop/?add-to-cart=70">Add to cart</a>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-3 col-sm-6">
-        <div class="single-shop-product">
-          <div class="product-upper">
-            <img src="img/product-2.jpg" alt="">
-          </div>
-          <h2><a href="">Apple new mac book 2015 March :P</a></h2>
-          <div class="product-carousel-price">
-            <ins>$899.00</ins> <del>$999.00</del>
-          </div>
-
-          <div class="product-option-shop">
-            <a class="add_to_cart_button" data-quantity="1" data-product_sku="" data-product_id="70" rel="nofollow" href="/canvas/shop/?add-to-cart=70">Add to cart</a>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-3 col-sm-6">
-        <div class="single-shop-product">
-          <div class="product-upper">
-            <img src="img/product-1.jpg" alt="">
-          </div>
-          <h2><a href="">Apple new mac book 2015 March :P</a></h2>
-          <div class="product-carousel-price">
-            <ins>$899.00</ins> <del>$999.00</del>
-          </div>
-
-          <div class="product-option-shop">
-            <a class="add_to_cart_button" data-quantity="1" data-product_sku="" data-product_id="70" rel="nofollow" href="/canvas/shop/?add-to-cart=70">Add to cart</a>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-3 col-sm-6">
-        <div class="single-shop-product">
-          <div class="product-upper">
-            <img src="img/product-3.jpg" alt="">
-          </div>
-          <h2><a href="">Apple new mac book 2015 March :P</a></h2>
-          <div class="product-carousel-price">
-            <ins>$899.00</ins> <del>$999.00</del>
-          </div>
-
-          <div class="product-option-shop">
-            <a class="add_to_cart_button" data-quantity="1" data-product_sku="" data-product_id="70" rel="nofollow" href="/canvas/shop/?add-to-cart=70">Add to cart</a>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-3 col-sm-6">
-        <div class="single-shop-product">
-          <div class="product-upper">
-            <img src="img/product-4.jpg" alt="">
-          </div>
-          <h2><a href="">Apple new mac book 2015 March :P</a></h2>
-          <div class="product-carousel-price">
-            <ins>$899.00</ins> <del>$999.00</del>
-          </div>
-
-          <div class="product-option-shop">
-            <a class="add_to_cart_button" data-quantity="1" data-product_sku="" data-product_id="70" rel="nofollow" href="/canvas/shop/?add-to-cart=70">Add to cart</a>
+            <a th:href="@{/addItem(product=${product.getProductName()},page='shop')}" class="add_to_cart_button">Add to cart</a>
           </div>
         </div>
       </div>
     </div>
 
-    <div class="row">
-      <div class="col-md-12">
-        <div class="product-pagination text-center">
-          <nav>
-            <ul class="pagination">
-              <li>
-                <a href="#" aria-label="Previous">
-                  <span aria-hidden="true">&laquo;</span>
-                </a>
-              </li>
-              <li><a href="#">1</a></li>
-              <li><a href="#">2</a></li>
-              <li><a href="#">3</a></li>
-              <li><a href="#">4</a></li>
-              <li><a href="#">5</a></li>
-              <li>
-                <a href="#" aria-label="Next">
-                  <span aria-hidden="true">&raquo;</span>
-                </a>
-              </li>
-            </ul>
-          </nav>
+    <div th:if="${totalPages > 1}">
+      <div class="row col-sm-10">
+        <div class="col-sm-1">
+            <span th:each="i: ${#numbers.sequence(1, totalPages)}">
+      <a th:if="${currentPage != i}" th:href="@{/shop(page=${i})}">[[${i}]]</a>
+      <span th:unless="${currentPage != i}">[[${i}]]</span> &nbsp; &nbsp;
+            </span>
+        </div>
+        <div class="col-sm-1">
+          <a th:if="${currentPage < totalPages}" th:href="@{/shop(page=${currentPage+1})}">Next</a>
+          <span th:unless="${currentPage < totalPages}">Next</span>
+        </div>
+
+        <div class="col-sm-1">
+          <a th:if="${currentPage < totalPages}" th:href="@{/shop(page=${totalPages})}">Last</a>
+          <span th:unless="${currentPage < totalPages}">Last</span>
         </div>
       </div>
     </div>
+
+
   </div>
 </div>
 

@@ -18,39 +18,45 @@
         </header>
 
         <div class="page-heading">
-            <h3>Product List</h3>
+            <h3 th:text="${product.getProductName()}"></h3>
         </div>
         <div class="row">
             <div class="col-md-6 col-sm-12">
                 <div class="card">
                     <div class="card-content">
-                        <img class="card-img-top img-fluid" src="assets/images/samples/origami.jpg" alt="Card image cap"
+                        <img th:src="|data:image/png;base64,${product.getProductImgStr()}|" alt="Card image cap"
                              style="height: 20rem" />
                         <div class="card-body">
                             <h4 class="card-title" th:text="${product.getProductName()}"></h4>
                             <p class="card-text">
-                                Is this product active?
-                                <span th:text="${product.isActive()}"></span>
+                                <span class="text-black h4"> Is this product active? </span>
+                                <span th:if="${product.isActive()}">
+                                    <span class="h2">Yes</span>
+                                </span>
+                                <span th:unless="${product.isActive()}">
+                                    <span class="h2 text-danger">No</span>
+                                </span>
                             </p>
                             <p class="card-text">
-                                Original Price :
-                                R <span th:text="${product.getProductPrice()}"></span>
+                                <span class="text-black h4">Original Price: R</span>
+                                <span class="h3" th:text="${product.getProductPrice()}"></span>
                             </p>
                             <p class="card-text" th:if="${product.isOnSale()}">
-                                Is this product on sale? Yes
-                                Discounted price: R <span th:text="${product.getProductDiscountedPrice()}"></span>
+                                <span class="text-black h4">Is this product on sale? Yes, </span>
+                                <span class="text-black h4">Discounted price: R </span>
+                                <span th:text="${product.getProductDiscountedPrice()}" class="h3"></span>
                             </p>
                             <p class="card-text" th:unless="${product.isOnSale()}">
-                                Is this product on sale? No
-                                Discounted price: R 0.00
+                                <span class="text-black h4">Is this product on sale? No, </span>
+                                <span class="text-black h4">Discounted price: R 0.00</span>
                             </p>
                             <p class="card-text">
-                                Items in stock:
-                                <span th:text="${product.getProductQuantity()}"></span>
+                                <span class="text-black h4">Items in stock: </span>
+                                <span th:text="${product.getProductQuantity()}" class="h3"></span>
                             </p>
                             <p class="card-text">
-                                Category :
-                                <span th:text="${product.getProductCategory().getCategoryName()}"></span>
+                                <span class="text-black h4">Category: </span>
+                                <span th:text="${product.getProductCategory().getCategoryName()}" class="h3"></span>
                             </p>
                         </div>
                     </div>
@@ -61,11 +67,11 @@
                 <div class="card">
                     <div class="card-content">
                         <div class="card-body">
-                            <p class="card-text" th:text="${product.getProductDescription()}"></p>
+                            <p class="card-text" th:utext="${product.getProductDescription()}"></p>
 
                             <div class="row">
                                 <div class="col-6">
-                                    <a th:href="@{/}" class="btn btn-primary">Edit</a>
+                                    <a th:href="@{/admin/edit/product(product=${product.getProductName()})}" class="btn btn-primary">Edit</a>
                                     <br>
                                 </div>
                                 <div class="col-6">

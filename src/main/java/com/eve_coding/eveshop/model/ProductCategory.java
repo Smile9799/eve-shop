@@ -30,6 +30,9 @@ public class ProductCategory {
 
     private String categoryName;
 
+    @Column(columnDefinition = "text")
+    private String categoryImageStr;
+
     private String categoryDescription;
 
     @OneToMany(

@@ -10,14 +10,16 @@
 
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" th:href="@{assets/css/bootstrap.css}">
+    <link rel="stylesheet" th:href="@{/assets/css/bootstrap.css}">
 
-    <link rel="stylesheet" th:href="@{assets/vendors/iconly/bold.css}">
+    <link rel="stylesheet" th:href="@{/assets/vendors/iconly/bold.css}">
 
-    <link rel="stylesheet" th:href="@{assets/vendors/perfect-scrollbar/perfect-scrollbar.css}">
-    <link rel="stylesheet" th:href="@{assets/vendors/bootstrap-icons/bootstrap-icons.css}">
-    <link rel="stylesheet" th:href="@{assets/css/app.css}">
-    <link rel="shortcut icon" th:href="@{assets/images/favicon.svg}" type="image/x-icon">
+    <link rel="stylesheet" th:href="@{/assets/vendors/perfect-scrollbar/perfect-scrollbar.css}">
+    <link rel="stylesheet" th:href="@{/assets/vendors/bootstrap-icons/bootstrap-icons.css}">
+    <link rel="stylesheet" th:href="@{/assets/css/app.css}">
+    <link rel="shortcut icon" th:href="@{/assets/images/favicon.svg}" type="image/x-icon">
+
+    <script src="https://cdn.tiny.cloud/1/hvhw7ikapukosna4xb91kixc6ycbdbdosmephoi6osnjuwin/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
 </head>
 
 <body>
@@ -52,13 +54,10 @@
                     </a>
                     <ul class="submenu ">
                         <li class="submenu-item ">
-                            <a th:href="@{/addCategory}">Add new category</a>
+                            <a th:href="@{/admin/view/categories}">Categories</a>
                         </li>
                         <li class="submenu-item ">
-                            <a th:href="@{/addProduct}">Add new product</a>
-                        </li>
-                        <li class="submenu-item ">
-                            <a th:href="@{/viewProducts}">View Products</a>
+                            <a th:href="@{/admin/view/products}">View Products</a>
                         </li>
                     </ul>
                 </li>
@@ -105,13 +104,21 @@
 </footer>
 
 <div th:fragment="master-scripts">
-    <script th:src="@{assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js}"></script>
-    <script th:src="@{assets/js/bootstrap.bundle.min.js}"></script>
+    <script th:src="@{/assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js}"></script>
+    <script th:src="@{/assets/js/bootstrap.bundle.min.js}"></script>
 
-    <script th:src="@{assets/vendors/apexcharts/apexcharts.js}"></script>
-    <script th:src="@{assets/js/pages/dashboard.js}"></script>
+    <script th:src="@{/assets/vendors/apexcharts/apexcharts.js}"></script>
+    <script th:src="@{/assets/js/pages/dashboard.js}"></script>
 
-    <script th:src="@{assets/js/main.js}"></script>
+    <script th:src="@{/assets/js/main.js}"></script>
+
+    <script>
+        tinymce.init({
+            selector: 'textarea',
+            plugins: 'advlist autolink lists link image charmap print preview hr anchor pagebreak',
+            toolbar_mode: 'floating',
+        });
+    </script>
 </div>
 </body>
 

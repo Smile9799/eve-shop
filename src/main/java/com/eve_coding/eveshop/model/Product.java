@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -33,9 +34,10 @@ public class Product {
 
     private String productName;
 
-    @Column(columnDefinition="TEXT")
+    @Column(columnDefinition="text")
     private String productDescription;
 
+    @Column(columnDefinition="text")
     private String productImgStr;
 
     private BigDecimal productPrice;
@@ -59,4 +61,7 @@ public class Product {
     @ManyToOne
     @JoinColumn(name = "category_id", nullable = false)
     private ProductCategory productCategory;
+
+    @Transient
+    public MultipartFile multipartFile;
 }

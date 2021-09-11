@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
@@ -23,11 +24,29 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
+    private static final String[] PUBLIC_MATCHERS = {
+      "/",
+      "/home",
+      "/shop",
+      "/contact",
+      "/product",
+      "/category",
+       "/registration",
+      "/category",
+      "/categories",
+      "/search",
+      "/css/**",
+      "/js/**",
+      "/assets/**",
+      "/fonts/**",
+      "/img/**"
+    };
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/css/**", "/js/**", "/**").permitAll()
+                .antMatchers(PUBLIC_MATCHERS).permitAll()
+                .antMatchers("/admin/**").hasAuthority("ADMIN")
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
@@ -36,6 +55,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .permitAll()
                 .and()
                 .logout()
+                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                .logoutSuccessUrl("/?logout")
                 .deleteCookies("JSESSIONID")
                 .and()
                 .rememberMe().key("uniqueAndSecret");
