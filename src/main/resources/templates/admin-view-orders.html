@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:replace="master/master-admin :: master-head">
+</head>
+
+<body>
+<div id="app">
+  <div th:replace="master/master-admin :: master-side-bar"></div>
+
+  <div id="main">
+    <header class="mb-3">
+      <a href="#" class="burger-btn d-block d-xl-none">
+        <i class="bi bi-justify fs-3"></i>
+      </a>
+    </header>
+
+    <div class="page-heading">
+      <h3>Order List</h3>
+    </div>
+
+    <section class="section">
+      <div class="row" id="table-striped">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-content">
+              <div class="card-body">
+
+              </div>
+              <!-- table striped -->
+              <div class="table-responsive">
+                <table class="table table-striped mb-0">
+                  <thead>
+                  <tr>
+                    <th>Order #</th>
+                    <th>Order Date</th>
+                    <th>Order Total</th>
+                    <th>Order Status</th>
+                    <th>Action</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr th:each="order : ${orders}">
+                    <td class="text-bold-500" th:text="${order.getOrderId()}"></td>
+                    <td><span th:text="${order.getOrderDate()}" class="text-bold-500"></span></td>
+                    <td class="text-bold-500"> R <span th:text="${order.getOrderTotal()}"></span></td>
+                    <td class="text-bold-500" th:text="${order.getOrderStatus()}"> </td>
+                    <td> <a th:href="@{/admin/order(orderId=${order.getOrderId()})}" class="btn btn-secondary">Manage</a></td>
+                  </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- Striped rows end -->
+
+    <footer th:replace="master/master-admin :: master-footer"></footer>
+  </div>
+</div>
+<div th:replace="master/master-admin :: master-scripts"></div>
+</body>
+
+</html>

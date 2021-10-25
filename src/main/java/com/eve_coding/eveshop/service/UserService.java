@@ -12,6 +12,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Service
@@ -29,17 +30,18 @@ public class UserService {
     @Autowired
     private UserShippingAddressRepository userShippingAddressRepository;
 
+    private void assingUserRole(String username, String roleName){
+        User user =  userRepository.getUserByEmail(username);
+        Role role =  roleRepository.getRoleByRoleName(roleName);
+
+        user.getRoles().add(role);
+
+        userRepository.save(user);
+    }
+
     public void saveUser(User user){
 
-        // TODO: only get appropriate roles
-        Role role = roleRepository.getRoleByRoleName("USER");
-
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-
-        //assign the newly registered user some roles
-        Set<Role> roles1 = new HashSet<>();
-        roles1.add(role);
-        user.setRoles(roles1);
 
         //immediately bind the user to the shopping cart
         ShoppingCart shoppingCart = new ShoppingCart();
@@ -47,6 +49,8 @@ public class UserService {
         shoppingCart.setUser(user);
 
         userRepository.save(user);
+
+        assingUserRole(user.getEmail(),"USER");
     }
 
     public User getUserByEmail(String email){
@@ -66,4 +70,7 @@ public class UserService {
         userShippingAddressRepository.delete(shippingAddress);
     }
 
+    public void saveRole(Role role) {
+        roleRepository.save(role);
+    }
 }

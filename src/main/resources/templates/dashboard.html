@@ -18,7 +18,7 @@
     </header>
 
     <div class="page-heading">
-      <h3>Profile Statistics</h3>
+      <h3>Shop Overview</h3>
     </div>
     <div class="page-content">
       <section class="row">
@@ -34,8 +34,8 @@
                       </div>
                     </div>
                     <div class="col-md-8">
-                      <h6 class="text-muted font-semibold">Profile Views</h6>
-                      <h6 class="font-extrabold mb-0">112.000</h6>
+                      <h6 class="text-muted font-semibold">Out of stock</h6>
+                      <a th:href="@{/admin/outOfStock/1}"><h6 class="font-extrabold mb-0" th:text="${outOfStock}"></h6></a>
                     </div>
                   </div>
                 </div>
@@ -51,8 +51,8 @@
                       </div>
                     </div>
                     <div class="col-md-8">
-                      <h6 class="text-muted font-semibold">Followers</h6>
-                      <h6 class="font-extrabold mb-0">183.000</h6>
+                      <h6 class="text-muted font-semibold">Cancelled orders</h6>
+                      <a th:href="@{/admin/order/cancelled}"><h6 class="font-extrabold mb-0" th:text="${cancelledOrders}">183.000</h6></a>
                     </div>
                   </div>
                 </div>
@@ -68,8 +68,8 @@
                       </div>
                     </div>
                     <div class="col-md-8">
-                      <h6 class="text-muted font-semibold">Following</h6>
-                      <h6 class="font-extrabold mb-0">80.000</h6>
+                      <h6 class="text-muted font-semibold">Successful orders</h6>
+                      <a th:href="@{/admin/order/completed}"><h6 class="font-extrabold mb-0" th:text="${completedOrders}">183.000</h6></a>
                     </div>
                   </div>
                 </div>
@@ -85,8 +85,8 @@
                       </div>
                     </div>
                     <div class="col-md-8">
-                      <h6 class="text-muted font-semibold">Saved Post</h6>
-                      <h6 class="font-extrabold mb-0">112</h6>
+                      <h6 class="text-muted font-semibold">Number of orders</h6>
+                      <h6 class="font-extrabold mb-0" th:text="${numberOfOrders}">112</h6>
                     </div>
                   </div>
                 </div>

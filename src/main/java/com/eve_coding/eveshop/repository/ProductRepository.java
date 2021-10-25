@@ -21,4 +21,10 @@ public interface ProductRepository extends JpaRepository<Product,Long> {
     Page<Product> getProductsByProductCategory(String category,Pageable pageable);
 
     Page<Product> findByProductNameLike(String productName, Pageable pageable);
+
+    @Query("select count (p) from Product p where p.productQuantity = 0")
+    int countProductsByProductQuantity();
+
+    @Query("select p from Product p where p.productQuantity = 0")
+    Page<Product> getProductsOutOfStock(Pageable pageable);
 }

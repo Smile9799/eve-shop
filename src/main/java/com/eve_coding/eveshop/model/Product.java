@@ -34,10 +34,10 @@ public class Product {
 
     private String productName;
 
-    @Column(columnDefinition="text")
+    @Lob
     private String productDescription;
 
-    @Column(columnDefinition="text")
+    @Lob
     private String productImgStr;
 
     private BigDecimal productPrice;

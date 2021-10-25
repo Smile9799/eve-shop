@@ -47,4 +47,15 @@ public class OrderService {
         order = orderRepository.save(order);
         return order;
     }
+
+    public int getNumberOfOrders(){
+        return orderRepository.countAllOrders();
+    }
+    public int getNumberOfOrdersByStatus(String orderStatus){
+        return orderRepository.countOrderByOrderStatus(orderStatus);
+    }
+
+    public List<Order> getAllOrders(){
+        return orderRepository.findAll();
+    }
 }

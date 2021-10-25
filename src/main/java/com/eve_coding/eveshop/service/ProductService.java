@@ -45,4 +45,13 @@ public class ProductService {
         Pageable pageable = PageRequest.of(0,3);
         return productRepository.findByProductNameLike("%"+productName+"%",pageable);
     }
+
+    public int productsOutOfStock(){
+        return productRepository.countProductsByProductQuantity();
+    }
+
+    public Page<Product> getProductsOutOfStock(int page){
+        Pageable pageable = PageRequest.of(page-1,8);
+        return productRepository.getProductsOutOfStock(pageable);
+    }
 }

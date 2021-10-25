@@ -2,6 +2,7 @@ package com.eve_coding.eveshop.controller;
 
 import com.eve_coding.eveshop.model.Product;
 import com.eve_coding.eveshop.model.ProductCategory;
+import com.eve_coding.eveshop.service.OrderService;
 import com.eve_coding.eveshop.service.ProductCategoryService;
 import com.eve_coding.eveshop.service.ProductService;
 import com.eve_coding.eveshop.service.UserService;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 import java.util.Base64;
 import java.util.List;
+import java.util.Optional;
 
 
 @RequestMapping("/admin")
@@ -26,11 +28,32 @@ public class AdminController {
     private ProductService productService;
 
     @Autowired
+    private OrderService orderService;
+
+    @Autowired
     private UserService userService;
 
     @GetMapping("/dashboard")
-    public String adminDashboard(){
+    public String adminDashboard(Model model){
+        model.addAttribute("outOfStock",productService.productsOutOfStock());
+        model.addAttribute("numberOfOrders",orderService.getNumberOfOrders());
+        model.addAttribute("cancelledOrders",orderService.getNumberOfOrdersByStatus("cancelled"));
+        model.addAttribute("completedOrders",orderService.getNumberOfOrdersByStatus("completed"));
         return "dashboard";
+    }
+
+    @GetMapping("/outOfStock/{page}")
+    public String outOfStock(Model model, @PathVariable("page") Optional<Integer> page){
+        int pageNo = page.orElse(1);
+        List<Product>  products = productService.getProductsOutOfStock(pageNo).getContent();
+        model.addAttribute("products",products);
+        return "admin-view-products";
+    }
+
+    @GetMapping("/view/orders")
+    public String viewOrders(Model model){
+        model.addAttribute("orders",orderService.getAllOrders());
+        return "admin-view-orders";
     }
 
     @GetMapping("/add/product")
