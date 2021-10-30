@@ -1,0 +1,29 @@
+server:
+  error:
+    include-message: always
+    include-binding-errors: always
+
+spring:
+  datasource:
+    password: f09be35d94b8f5a008f3cb68cd1f2e5dd53b2765e8072af2bf65df1babe0135e
+    url: jdbc:postgresql://ec2-34-200-161-87.compute-1.amazonaws.com:5432/d7h40mgcc8vuk7
+    username: lvpzftpdamggkc
+  jpa:
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+    show-sql: true
+
+#  mail:
+#    host: in-v3.mailjet.com
+#    port: 587
+#    username: 0b1226b67b1abe48e9882bba53998b6c
+#    password: 7cd6d44d51442d7c35d67c1e27dc319b
+#
+#    properties:
+#      mail:
+#        smtp:
+#          auth: true

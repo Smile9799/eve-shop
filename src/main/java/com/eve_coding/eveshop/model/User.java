@@ -52,6 +52,9 @@ public class User {
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
     private List<UserShippingAddress> shippingAddresses;
 
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
+    private Set<Token> tokens = new HashSet<>();
+
     public User() {
 
     }
