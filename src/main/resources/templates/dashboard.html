@@ -80,8 +80,8 @@
                 <div class="card-body px-3 py-4-5">
                   <div class="row">
                     <div class="col-md-4">
-                      <div class="stats-icon red">
-                        <i class="iconly-boldBookmark"></i>
+                      <div class="stats-icon green">
+                        <i class="iconly-bulkBag"></i>
                       </div>
                     </div>
                     <div class="col-md-8">
@@ -89,6 +89,84 @@
                       <h6 class="font-extrabold mb-0" th:text="${numberOfOrders}">112</h6>
                     </div>
                   </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-lg-3">
+        </div>
+      </section>
+      <section class="row" th:if="${not #lists.isEmpty(orders)}">
+        <div class="col-12 col-lg-9">
+          <div class="row">
+            <div class="card">
+              <div class="card-content">
+                <div class="card-body">
+
+                </div>
+                <!-- table striped -->
+                <div class="table-responsive">
+                  <table class="table table-striped mb-0">
+                    <thead>
+                    <tr>
+                      <th>Order #</th>
+                      <th>Order Date</th>
+                      <th>Order Total</th>
+                      <th>Order Status</th>
+                      <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="order : ${orders}">
+                      <td class="text-bold-500" th:text="${order.getOrderId()}"></td>
+                      <td><span th:text="${order.getOrderDate()}" class="text-bold-500"></span></td>
+                      <td class="text-bold-500"> R <span th:text="${order.getOrderTotal()}"></span></td>
+                      <td class="text-bold-500" th:text="${order.getOrderStatus()}"> </td>
+                      <td> <a th:href="@{/admin/order(orderId=${order.getOrderId()})}" class="btn btn-secondary">Manage</a></td>
+                    </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-lg-3">
+        </div>
+      </section>
+      <section class="row" th:if="${not #lists.isEmpty(products)}">
+        <div class="col-12 col-lg-9">
+          <div class="row">
+            <div class="card">
+              <div class="card-content">
+                <div class="card-body">
+                  <h3 class="text-danger">Products out of stock</h3>
+                </div>
+                <!-- table striped -->
+                <div class="table-responsive">
+                  <table class="table table-striped mb-0">
+                    <thead>
+                    <tr>
+                      <th>Product Name</th>
+                      <th>Product Price</th>
+                      <th>Product Quantity</th>
+                      <th>Product Active?</th>
+                      <th>Category</th>
+                      <th>ACTION</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="product : ${products}">
+                      <td class="text-bold-500" th:text="${product.getProductName()}"></td>
+                      <td>R <span th:text="${product.getProductPrice()}"></span></td>
+                      <td class="text-bold-500" th:text="${product.getProductQuantity()}"></td>
+                      <td> <span th:if="${product.isActive()}">Yes</span> <span th:unless="${product.isActive()}"> No</span></td>
+                      <td th:text="${product.getProductCategory().getCategoryName()}"></td>
+                      <td> <a th:href="@{/admin/manage(product=${product.getProductName()})}" class="btn btn-secondary">Manage</a></td>
+                    </tr>
+                    </tbody>
+                  </table>
                 </div>
               </div>
             </div>

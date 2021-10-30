@@ -94,6 +94,17 @@
             <li sec:authorize="hasAuthority('ADMIN')"><a th:href="@{/admin/dashboard}">Admin Panel</a></li>
             <li><a th:href="@{/}">Contact</a></li>
           </ul>
+
+            <form th:action="@{/search}" method="get">
+              <ul class="pull-right nav navbar-nav">
+                <li>
+                  <input type="text" class="form-control center-block" name="search" placeholder="Search item by name">
+                </li>
+                <li>
+                  <input type="submit" class="btn btn-primary" value="Search">
+                </li>
+              </ul>
+            </form>
         </div>
       </div>
     </div>
@@ -122,16 +133,16 @@
           <div class="footer-menu">
             <h2 class="footer-wid-title">User Navigation </h2>
             <ul>
-              <li><a href="#">My account</a></li>
-              <li><a href="#">Order history</a></li>
-              <li><a href="#">Wishlist</a></li>
-              <li><a href="#">Vendor contact</a></li>
-              <li><a href="#">Front page</a></li>
+              <li><a th:href="@{/account}">My account</a></li>
+              <li><a th:href="@{/orders}">Order history</a></li>
+              <li><a th:href="@{/cart}">Cart</a></li>
+              <li><a th:href="@{/contact}">Vendor contact</a></li>
+              <li><a th:href="@{/}">Front page</a></li>
             </ul>
           </div>
         </div>
 
-        <div class="col-md-3 col-sm-6">
+        <div class="col-md-3 col-sm-6" style="visibility: hidden">
           <div class="footer-menu">
             <h2 class="footer-wid-title">Categories</h2>
             <ul>

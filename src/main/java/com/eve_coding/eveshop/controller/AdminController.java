@@ -1,11 +1,13 @@
 package com.eve_coding.eveshop.controller;
 
+import com.eve_coding.eveshop.model.Order;
 import com.eve_coding.eveshop.model.Product;
 import com.eve_coding.eveshop.model.ProductCategory;
 import com.eve_coding.eveshop.service.OrderService;
 import com.eve_coding.eveshop.service.ProductCategoryService;
 import com.eve_coding.eveshop.service.ProductService;
 import com.eve_coding.eveshop.service.UserService;
+import com.sun.org.apache.xpath.internal.operations.Mod;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -37,8 +39,11 @@ public class AdminController {
     public String adminDashboard(Model model){
         model.addAttribute("outOfStock",productService.productsOutOfStock());
         model.addAttribute("numberOfOrders",orderService.getNumberOfOrders());
+
+        model.addAttribute("products",productService.getProductsOutOfStock(1));
+        model.addAttribute("orders",orderService.getLatestOrders());
         model.addAttribute("cancelledOrders",orderService.getNumberOfOrdersByStatus("cancelled"));
-        model.addAttribute("completedOrders",orderService.getNumberOfOrdersByStatus("completed"));
+        model.addAttribute("completedOrders",orderService.getNumberOfOrdersByStatus("successful"));
         return "dashboard";
     }
 
@@ -56,12 +61,30 @@ public class AdminController {
         return "admin-view-orders";
     }
 
+    @GetMapping("/order")
+    public String viewOrderDetails(Model model, @RequestParam("orderId") Long orderId){
+        model.addAttribute("order",orderService.getOrder(orderId));
+        return "admin-order-details";
+    }
+
     @GetMapping("/add/product")
     public String adminAddProduct(Model model){
         List<ProductCategory> productCategoryList = productCategoryService.productCategories();
         model.addAttribute("categoryList",productCategoryList);
         model.addAttribute("product",new Product());
         return "admin-add-product";
+    }
+
+    @PostMapping("/order/status")
+    public String updateStatus(@ModelAttribute("status") String status, @ModelAttribute("orderId") Long orderId){
+        Order order = orderService.getOrder(orderId);
+        if(order != null){
+            order.setOrderStatus(status);
+            orderService.updateOrder(order);
+            return "redirect:/admin/order?orderId="+orderId;
+        }else {
+            return "bad-request-page";
+        }
     }
 
     @GetMapping("/add/category")
@@ -99,6 +122,11 @@ public class AdminController {
 
     @PostMapping("/adminAddCategory")
     public String adminAddCategory(@ModelAttribute("productCategory") ProductCategory productCategory){
+        try {
+            productCategory.setCategoryImageStr(Base64.getEncoder().encodeToString(productCategory.getMultipartFile().getBytes()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         productCategoryService.addNewCategory(productCategory);
         return "redirect:/admin/view/products";
     }

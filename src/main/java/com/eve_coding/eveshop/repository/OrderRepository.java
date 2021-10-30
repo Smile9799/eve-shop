@@ -2,8 +2,10 @@ package com.eve_coding.eveshop.repository;
 
 import com.eve_coding.eveshop.model.Order;
 import com.eve_coding.eveshop.model.User;
+import org.aspectj.weaver.ast.Or;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -18,5 +20,8 @@ public interface OrderRepository extends JpaRepository<Order,Long> {
 
     @Query("select count (o) from Order o")
     int countAllOrders();
+
+    List<Order> getOrdersByOrderStatusOrderByOrderDateDesc(String orderStatus);
+
 
 }

@@ -1,11 +1,9 @@
 package com.eve_coding.eveshop.controller;
 
-import com.eve_coding.eveshop.model.Order;
 import com.eve_coding.eveshop.model.User;
 import com.eve_coding.eveshop.model.UserShippingAddress;
 import com.eve_coding.eveshop.service.*;
 import com.eve_coding.eveshop.utils.Province;
-import com.eve_coding.eveshop.utils.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -17,7 +15,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.security.Principal;
-import java.util.ArrayList;
 import java.util.Optional;
 
 @Controller
@@ -31,9 +28,6 @@ public class AccountController {
 
     @Autowired
     private SecurityService securityService;
-
-    @Autowired
-    private UserValidator userValidator;
 
     @Autowired
     private ProductCategoryService productCategoryService;
@@ -191,8 +185,6 @@ public class AccountController {
 
     @PostMapping("/registration")
     public String registration(@ModelAttribute("user") User userForm, BindingResult bindingResult) {
-
-        userValidator.validate(userForm, bindingResult);
 
         if (bindingResult.hasErrors()) {
             return "registration";

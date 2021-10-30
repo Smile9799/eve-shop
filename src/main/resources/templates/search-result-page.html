@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="master/master-page :: master-header">
+</head>
+<body>
+
+<div th:replace="master/master-page :: master-nav"></div>
+
+<div class="single-product-area">
+  <div class="zigzag-bottom"></div>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-3 col-sm-6" th:each="product : ${productsList}">
+        <div class="single-shop-product">
+          <div class="product-upper">
+            <img th:src="|data:image/png;base64,${product.getProductImgStr()}|" alt="">
+          </div>
+          <h2><a th:href="@{/product(product=${product.getProductName()})}" th:text="${product.getProductName()}"></a></h2>
+          <div class="product-carousel-price">
+            <div th:if="${product.isOnSale()}">
+              <ins> R <span th:text="${product.getProductDiscountedPrice()}"></span> </ins> <del>R <span th:text="${product.getProductPrice()}"></span></del>
+            </div>
+            <div th:unless="${product.isOnSale()}">
+              <ins> R <span th:text="${product.getProductPrice()}"></span></ins>
+            </div>
+          </div>
+
+          <div class="product-option-shop">
+            <a th:href="@{/addItem(product=${product.getProductName()},page='shop')}" class="add_to_cart_button">Add to cart</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div th:if="${totalPages > 1}">
+      <div class="row col-sm-10">
+        <div class="col-sm-1">
+            <span th:each="i: ${#numbers.sequence(1, totalPages)}">
+      <a th:if="${currentPage != i}" th:href="@{/shop(page=${i})}">[[${i}]]</a>
+      <span th:unless="${currentPage != i}">[[${i}]]</span> &nbsp; &nbsp;
+            </span>
+        </div>
+        <div class="col-sm-1">
+          <a th:if="${currentPage < totalPages}" th:href="@{/shop(page=${currentPage+1})}">Next</a>
+          <span th:unless="${currentPage < totalPages}">Next</span>
+        </div>
+
+        <div class="col-sm-1">
+          <a th:if="${currentPage < totalPages}" th:href="@{/shop(page=${totalPages})}">Last</a>
+          <span th:unless="${currentPage < totalPages}">Last</span>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+</div>
+
+
+<div th:replace="master/master-page :: master-footer"></div>
+<div th:replace="master/master-page :: master-scripts"></div>
+
+</body>
+</html>

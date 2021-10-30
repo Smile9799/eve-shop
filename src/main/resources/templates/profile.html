@@ -123,7 +123,9 @@
                                                 th:text="${order.getOrderDate()}"></span></a></td>
                                         <td data-th-text="${order.getOrderId()}"></td>
                                         <td data-th-text="${order.getOrderTotal()}"></td>
-                                        <td data-th-text="${order.getOrderStatus()}"></td>
+                                        <td th:if="${order.getOrderStatus().equals('created')}" data-th-text="${order.getOrderStatus()}"></td>
+                                        <td th:if="${order.getOrderStatus().equals('successful')}" data-th-text="${order.getOrderStatus()}" class="text-success"></td>
+                                        <td th:if="${order.getOrderStatus().equals('cancelled')}" data-th-text="${order.getOrderStatus()}" class="text-danger"></td>
                                     </tr>
                                     </tbody>
                                 </table>

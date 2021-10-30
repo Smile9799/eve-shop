@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:replace="master/master-admin :: master-head">
+</head>
+
+<body>
+<div id="app">
+    <div th:replace="master/master-admin :: master-side-bar"></div>
+
+    <div id="main">
+        <header class="mb-3">
+            <a href="#" class="burger-btn d-block d-xl-none">
+                <i class="bi bi-justify fs-3"></i>
+            </a>
+        </header>
+
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="text-center">
+                    <h2>
+                        Order Detail for Purchase #<span th:text="${order.getOrderId()}"></span>
+                    </h2>
+                </div>
+                <hr />
+
+               <div class="container">
+                   <div class="row">
+                       <div class="col-xs-4 mb-4">
+                           <strong>Order status:
+                               <span th:if="${order.getOrderStatus().equals('created')}" th:text="${order.getOrderStatus()}"></span>
+                               <span th:if="${order.getOrderStatus().equals('successful')}" th:text="${order.getOrderStatus()}" class="text-success"></span>
+                               <span th:if="${order.getOrderStatus().equals('cancelled')}" th:text="${order.getOrderStatus()}" class="text-danger"></span>
+                           </strong><br>
+                           <div th:if="${order.getOrderStatus().equals('created')}">
+                               <label>Update Order Status</label>
+                               <form th:action="@{/admin/order/status}" method="post">
+                                   <input type="hidden" name="orderId" th:value="${order.getOrderId()}">
+                                   <select class="form-select form-control" aria-label="Default select example" id="helpInputTop" name="status">
+                                       <option selected value="00" disabled>Select Category</option>
+                                       <option value="successful">Successful</option>
+                                       <option value="cancelled">Cancelled</option>
+                                   </select>
+                                   <input type="submit" value="Update order status" class="btn btn-primary">
+                               </form>
+                           </div>
+                       </div>
+                       <div class="col-xs-4 mb-4">
+                           <div class="panel panel-default height">
+                               <div class="panel-heading">
+                                   <strong>Billing Details</strong>
+                               </div>
+                               <div class="panel-body">
+								<span
+                                        th:text="${order.getOrderBillingAddress().getOrderBillingAddressName()}"></span><br />
+                                   <span
+                                           th:text="${order.getOrderBillingAddress().getOrderBillingAddressStreet1()}+' '+${order.getOrderBillingAddress().getOrderBillingAddressStreet2()}"></span><br />
+                                   <span
+                                           th:text="${order.getOrderBillingAddress().getOrderBillingAddressCity()}"></span><br />
+                                   <span
+                                           th:text="${order.getOrderBillingAddress().getOrderBillingAddressProvince()}"></span><br />
+                                   <span
+                                           th:text="${order.getOrderBillingAddress().getOrderBillingAddressZipCode()}"></span><br />
+                               </div>
+                           </div>
+                       </div>
+
+                       <div class="col-xs-4 mb-4">
+                           <div class="panel panel-default height">
+                               <div class="panel-heading">
+                                   <strong>Payment Information</strong>
+                               </div>
+                               <div class="panel-body">
+                                   <!--																		<span th:text="${order.payment.holderName}">Card-->
+                                   <!--																			Name</span><br /> <span-->
+                                   <!--                                                                th:text="${order.payment.cardNumber}">Card-->
+                                   <!--																			Number</span><br /> <span>Exp Date:</span><span-->
+                                   <!--                                                                th:text="${order.payment.expiryMonth}"></span>/<span-->
+                                   <!--                                                                th:text="${order.payment.expiryYear}"></span><br />-->
+                               </div>
+                           </div>
+                       </div>
+
+                       <div class="col-xs-4 mb-4">
+                           <div class="panel panel-default height">
+                               <div class="panel-heading">
+                                   <strong>Shipping Details</strong>
+                               </div>
+                               <div class="panel-body">
+                                <span
+                                        th:text="${order.getOrderShippingAddress().getOrderShippingAddressName()}"></span><br />
+                                   <span
+                                           th:text="${order.getOrderShippingAddress().getOrderShippingAddressStreet1()}+' '+${order.getOrderShippingAddress().getOrderShippingAddressStreet2()}"></span><br />
+                                   <span
+                                           th:text="${order.getOrderShippingAddress().getOrderShippingAddressCity()}"></span><br />
+                                   <span
+                                           th:text="${order.getOrderShippingAddress().getOrderShippingAddressProvince()}"></span><br />
+                                   <span
+                                           th:text="${order.getOrderShippingAddress().getOrderShippingAddressZipCode()}"></span><br />
+                               </div>
+                           </div>
+                       </div>
+                   </div>
+               </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel-heading">
+                    <h3 class="text-center">
+                        <strong>Order Summary</strong>
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <table class="table table-condensed">
+                            <thead>
+                            <tr>
+                                <td><strong>Item Name</strong></td>
+                                <td class="text-center"><strong>Item
+                                    Price</strong></td>
+                                <td class="text-center"><strong>Item
+                                    Quantity</strong></td>
+                                <td class="text-right"><strong>Total</strong></td>
+                            </tr>
+                            </thead>
+
+                            <tbody>
+                            <tr th:each="cartItem : ${order.getCartItems()}">
+                                <td data-th-text="${cartItem.getProduct().getProductName()}"></td>
+                                <td class="text-center"
+                                    data-th-text="${cartItem.getProduct().getProductPrice()}"></td>
+                                <td class="text-center"
+                                    data-th-text="${cartItem.getQty()}"></td>
+                                <td class="text-right"
+                                    data-th-text="${cartItem.getSubTotal()}"></td>
+                            </tr>
+                            <tr>
+                                <td class="emptyrow"><i
+                                        class="fa fa-barcode iconbig"></i></td>
+                                <td class="emptyrow"></td>
+                                <td class="emptyrow text-center"><strong>Total</strong></td>
+                                <td class="emptyrow text-right"> R<span th:text="${order.getOrderTotal()}"></span></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer th:replace="master/master-admin :: master-footer"></footer>
+    </div>
+</div>
+<div th:replace="master/master-admin :: master-scripts"></div>
+</body>
+
+</html>

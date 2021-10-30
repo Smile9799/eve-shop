@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -30,7 +31,7 @@ public class ProductCategory {
 
     private String categoryName;
 
-    @Column(columnDefinition = "text")
+    @Lob
     private String categoryImageStr;
 
     private String categoryDescription;
@@ -40,4 +41,7 @@ public class ProductCategory {
             cascade = CascadeType.ALL
     )
     private Set<Product> products;
+
+    @Transient
+    private MultipartFile multipartFile;
 }

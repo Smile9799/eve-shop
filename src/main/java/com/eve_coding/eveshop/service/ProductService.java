@@ -54,4 +54,9 @@ public class ProductService {
         Pageable pageable = PageRequest.of(page-1,8);
         return productRepository.getProductsOutOfStock(pageable);
     }
+
+    public Page<Product> searchProduct(String name,int page){
+        Pageable pageable = PageRequest.of(1-page,8);
+        return productRepository.findByProductNameContaining(name,pageable);
+    }
 }

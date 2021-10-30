@@ -3,6 +3,7 @@ package com.eve_coding.eveshop.service;
 import com.eve_coding.eveshop.model.*;
 import com.eve_coding.eveshop.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -57,5 +58,11 @@ public class OrderService {
 
     public List<Order> getAllOrders(){
         return orderRepository.findAll();
+    }
+    public void updateOrder(Order order){
+        orderRepository.save(order);
+    }
+    public List<Order> getLatestOrders(){
+        return orderRepository.getOrdersByOrderStatusOrderByOrderDateDesc("created");
     }
 }
