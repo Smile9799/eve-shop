@@ -6,5 +6,5 @@ import java.util.List;
 
 public class Province {
 
-    public static final List<String> provinces = Arrays.asList("Limpopo","KZN","Gauteng");
+    public static final List<String> provinces = Arrays.asList("Limpopo","KZN","Gauteng","North-West","Mpumalanga","Western Cape","Northern Cape","Eastern Cape","Western Cape","Free State");
 }
