@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+
+  <!-- Bootstrap core CSS -->
+  <link href="/css/bootstrap.min.css" rel="stylesheet" />
+
+  <link href="/css/responsive.css" rel="stylesheet" />
+
+  <link href="/css/font-awesome.min.css" rel="stylesheet" />
+
+  <!-- Custom styles for this template -->
+  <link href="/css/style.css" rel="stylesheet" />
+
+  <style>
+    table {
+      font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+      border-collapse: collapse;
+      width: 100%;
+    }
+
+    th, td {
+      border: 2px solid #ddd;
+      padding: 8px;
+    }
+
+    th {
+      padding-top: 12px;
+      padding-bottom: 12px;
+      text-align: left;
+      background-color: teal;
+      color: white;
+    }
+
+    tr:hover {
+      background-color: #ddd;
+    }
+
+    tr:nth-child(even) {
+      background-color: #f2f2f2;
+    }
+  </style>
+</head>
+<body>
+<p>
+  Dear <span th:text="${user.getFirstName()}"></span>,
+</p>
+<br />
+<p>Thank you for shopping from our site. We hope you had a good
+  time with our service!</p>
+<p>
+  Your order number is: <strong>#<span th:text="${order.getOrderId()}"></span></strong>.
+  Here is your order detail:
+</p>
+<h2>
+  Order Detail for purchase #<span th:text="${order.getOrderId()}"></span>
+</h2>
+<hr />
+
+<table>
+  <tr>
+    <th>Billing Detail</th>
+<!--    <th>Payment Information</th>-->
+    <th>Shipping Address</th>
+  </tr>
+  <tr>
+    <td><span th:text="${order.getOrderBillingAddress().getOrderBillingAddressName()}"></span><br />
+      <span
+              th:text="${order.getOrderBillingAddress().getOrderBillingAddressStreet1()}+' '+${order.getOrderBillingAddress().getOrderBillingAddressStreet2()}"></span><br />
+      <span th:text="${order.getOrderBillingAddress().getOrderBillingAddressCity()}"></span><br />
+      <span th:text="${order.getOrderBillingAddress().getOrderBillingAddressProvince()}"></span><br />
+      <span th:text="${order.getOrderBillingAddress().getOrderBillingAddressZipCode()}"></span><br />
+    </td>
+<!--    <td><span th:text="${order.payment.holderName}"></span><br /> <span-->
+<!--            th:text="${order.payment.type}"></span><br /> <span-->
+<!--            th:text="${order.payment.cardNumber}"></span><br /> <span-->
+<!--            th:text="${order.payment.expiryMonth}"></span><br /> <span-->
+<!--            th:text="${order.payment.expiryYear}"></span><br /></td>-->
+    <td><span th:text="${order.getOrderShippingAddress().getOrderShippingAddressName()}"></span><br />
+      <span
+              th:text="${order.getOrderShippingAddress().getOrderShippingAddressStreet1()}+' '+${order.getOrderShippingAddress().getOrderShippingAddressStreet2()}"></span><br />
+      <span th:text="${order.getOrderShippingAddress().getOrderShippingAddressCity()}"></span><br />
+      <span th:text="${order.getOrderShippingAddress().getOrderShippingAddressProvince()}"></span><br />
+      <span th:text="${order.getOrderShippingAddress().getOrderShippingAddressZipCode()}"></span><br />
+    </td>
+  </tr>
+</table>
+
+<h3>
+  <strong>Order Summary</strong>
+</h3>
+<table class="table table-striped mb-0">
+  <thead>
+  <tr>
+    <th>Product Name</th>
+    <th>Product Price</th>
+    <th>Product Quantity</th>
+    <th>Total</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="cartItem : ${order.getCartItems()}">
+    <td class="text-bold-500" th:text="${cartItem.getProduct().getProductName()}"></td>
+    <td>R <span th:text="${cartItem.getProduct().getProductPrice()}"></span></td>
+    <td class="text-bold-500" th:text="${cartItem.getQty()}"></td>
+    <td>R <span th:text="${cartItem.getSubTotal()}"></span></td>
+  </tr>
+  </tbody>
+</table>
+
+<br />
+<p>Best,</p>
+<p>Muthanuni Eversmile.</p>
+<p>UStora Shop.</p>
+</body>
+</html>

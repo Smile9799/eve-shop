@@ -8,6 +8,7 @@ import com.eve_coding.eveshop.service.CartItemService;
 import com.eve_coding.eveshop.service.ProductService;
 import com.eve_coding.eveshop.service.ShoppingCartService;
 import com.eve_coding.eveshop.service.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,6 +19,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Controller
+@Slf4j
 public class ShoppingCartController {
 
     @Autowired
@@ -34,24 +36,26 @@ public class ShoppingCartController {
 
     @RequestMapping(value = "/addToCart", method = RequestMethod.GET)
     public String addToCart(@ModelAttribute("product") String productName,
-                            @ModelAttribute("qty") String qty,
-                            Model model, Principal principal){
+                            @ModelAttribute("qty") String qty, Principal principal){
 
         Product product = productService.product(productName);
         User user = userService.getUserByEmail(principal.getName());
 
         cartItemService.addProductToCartItem(product,user,Integer.parseInt(qty));
+
+        log.info("adding {} to cart", product.getProductName());
         return "redirect:/product?product="+product.getProductName();
     }
 
     @GetMapping("/addItem")
-    public String addToCart(@RequestParam("product") String productName,
+    public String addToCartHome(@RequestParam("product") String productName,
                             @RequestParam("page") String page,
-                            Principal principal, Model model){
+                            Principal principal){
         Product product = productService.product(productName);
         User user = userService.getUserByEmail(principal.getName());
         cartItemService.addProductToCartItem(product,user,1);
 
+        log.info("adding {} to cart", product.getProductName());
         if(page.equals("home")){
             return "redirect:/";
         }else{
@@ -79,6 +83,8 @@ public class ShoppingCartController {
         model.addAttribute("cartItems", cartItems);
         model.addAttribute("user",user);
         model.addAttribute("shoppingCart",shoppingCart);
+
+        log.info("starting cart page");
         return "cart";
     }
 
@@ -92,6 +98,7 @@ public class ShoppingCartController {
                 break;
             }
         }
+        log.info("removed an item from cart");
         return "redirect:/cart";
     }
 
@@ -109,6 +116,7 @@ public class ShoppingCartController {
                 break;
             }
         }
+        log.info("item in cart updated");
         return "redirect:/cart";
     }
 }

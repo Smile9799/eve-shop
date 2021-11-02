@@ -35,8 +35,10 @@ public class EveShopApplication {
 //            user.setLastName("Muthanuni");
 //            user.setEmail("muthanunie@gmail.com");
 //            user.setPassword("Eve@123");
+//            user.setEnabled(true);
 //
 //            userService.saveUser(user);
+//            userService.assingUserRole("muthanunie@gmail.com","ADMIN");
 //        };
 //    }
 }

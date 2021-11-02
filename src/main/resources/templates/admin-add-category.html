@@ -29,7 +29,7 @@
                 <h4 class="card-title">Category</h4>
               </div>
 
-              <form method="post" th:action="@{/admin/adminAddCategory}" th:object="${productCategory}">
+              <form method="post" th:action="@{/admin/adminAddCategory}" th:object="${productCategory}" enctype="multipart/form-data">
                 <div class="card-body">
                   <div class="row">
                     <div class="col-md-6">

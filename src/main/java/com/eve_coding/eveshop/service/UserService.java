@@ -1,12 +1,11 @@
 package com.eve_coding.eveshop.service;
 
-import com.eve_coding.eveshop.model.Role;
-import com.eve_coding.eveshop.model.ShoppingCart;
-import com.eve_coding.eveshop.model.User;
-import com.eve_coding.eveshop.model.UserShippingAddress;
+import com.eve_coding.eveshop.model.*;
 import com.eve_coding.eveshop.repository.RoleRepository;
+import com.eve_coding.eveshop.repository.TokenRepository;
 import com.eve_coding.eveshop.repository.UserRepository;
 import com.eve_coding.eveshop.repository.UserShippingAddressRepository;
+import com.eve_coding.eveshop.utils.SendEmail;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -14,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 @Service
 public class UserService {
@@ -29,8 +29,20 @@ public class UserService {
 
     @Autowired
     private UserShippingAddressRepository userShippingAddressRepository;
+    @Autowired
+    private TokenRepository tokenRepository;
+    @Autowired
+    private SendEmail sendEmail;
 
-    private void assingUserRole(String username, String roleName){
+
+    public Token getToken(String tokenStr){
+        return tokenRepository.getTokenByTokenStr(tokenStr);
+    }
+
+    public void updateUser(User user){
+        userRepository.save(user);
+    }
+    public void assingUserRole(String username, String roleName){
         User user =  userRepository.getUserByEmail(username);
         Role role =  roleRepository.getRoleByRoleName(roleName);
 
@@ -41,6 +53,8 @@ public class UserService {
 
     public void saveUser(User user){
 
+        String tokenStr = UUID.randomUUID().toString();
+
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
         //immediately bind the user to the shopping cart
@@ -48,9 +62,16 @@ public class UserService {
         user.setShoppingCart(shoppingCart);
         shoppingCart.setUser(user);
 
+        Token token =  new Token(user,tokenStr);
+
+
+
         userRepository.save(user);
+        tokenRepository.save(token);
 
         assingUserRole(user.getEmail(),"USER");
+
+        sendEmail.sendConfirmationEmail(user,tokenStr);
     }
 
     public User getUserByEmail(String email){

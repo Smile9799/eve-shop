@@ -8,6 +8,7 @@ import com.eve_coding.eveshop.service.ProductCategoryService;
 import com.eve_coding.eveshop.service.ProductService;
 import com.eve_coding.eveshop.service.UserService;
 import com.sun.org.apache.xpath.internal.operations.Mod;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,6 +22,7 @@ import java.util.Optional;
 
 @RequestMapping("/admin")
 @Controller
+@Slf4j
 public class AdminController {
 
     @Autowired
@@ -37,6 +39,7 @@ public class AdminController {
 
     @GetMapping("/dashboard")
     public String adminDashboard(Model model){
+        log.info("starting admin dashboard");
         model.addAttribute("outOfStock",productService.productsOutOfStock());
         model.addAttribute("numberOfOrders",orderService.getNumberOfOrders());
 
@@ -52,18 +55,22 @@ public class AdminController {
         int pageNo = page.orElse(1);
         List<Product>  products = productService.getProductsOutOfStock(pageNo).getContent();
         model.addAttribute("products",products);
+
+        log.info("visiting out stock product page");
         return "admin-view-products";
     }
 
     @GetMapping("/view/orders")
     public String viewOrders(Model model){
         model.addAttribute("orders",orderService.getAllOrders());
+        log.info("visiting all orders page");
         return "admin-view-orders";
     }
 
     @GetMapping("/order")
     public String viewOrderDetails(Model model, @RequestParam("orderId") Long orderId){
         model.addAttribute("order",orderService.getOrder(orderId));
+        log.info("visiting single order page");
         return "admin-order-details";
     }
 
@@ -72,6 +79,8 @@ public class AdminController {
         List<ProductCategory> productCategoryList = productCategoryService.productCategories();
         model.addAttribute("categoryList",productCategoryList);
         model.addAttribute("product",new Product());
+
+        log.info("visiting add product page");
         return "admin-add-product";
     }
 
@@ -81,8 +90,10 @@ public class AdminController {
         if(order != null){
             order.setOrderStatus(status);
             orderService.updateOrder(order);
+            log.info("changing order status");
             return "redirect:/admin/order?orderId="+orderId;
         }else {
+            log.error("did not find the order with that Id");
             return "bad-request-page";
         }
     }
@@ -90,23 +101,28 @@ public class AdminController {
     @GetMapping("/add/category")
     public String adminAddCategory(Model model){
         model.addAttribute("productCategory",new ProductCategory());
+        log.info("visiting add product category page");
         return "admin-add-category";
     }
 
     @GetMapping("/view/products")
     public String adminViewProducts(Model model){
         model.addAttribute("products",productService.products());
+        log.info("visiting all products page");
         return "admin-view-products";
     }
     @GetMapping("/view/categories")
     public String adminViewCategories(Model model){
         model.addAttribute("categories",productCategoryService.productCategories());
+        log.info("visiting all product category page");
         return "admin-view-categories";
     }
 
     @GetMapping("/manage")
     public String adminViewSingleProduct(Model model, @RequestParam("product") String productName){
         model.addAttribute("product",productService.product(productName));
+
+        log.info("visiting product page");
         return "admin-view-single-product";
     }
 
@@ -117,15 +133,17 @@ public class AdminController {
         List<ProductCategory> categories = productCategoryService.productCategories();
         model.addAttribute("categoryList",categories);
         model.addAttribute("product",product);
+        log.info("visiting edit product page");
         return "admin-edit-product";
     }
 
     @PostMapping("/adminAddCategory")
     public String adminAddCategory(@ModelAttribute("productCategory") ProductCategory productCategory){
+        log.info("add new category");
         try {
             productCategory.setCategoryImageStr(Base64.getEncoder().encodeToString(productCategory.getMultipartFile().getBytes()));
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("error uploading product category image",e.fillInStackTrace());
         }
         productCategoryService.addNewCategory(productCategory);
         return "redirect:/admin/view/products";
@@ -133,10 +151,11 @@ public class AdminController {
 
     @PostMapping("/adminAddNewProduct")
     public String adminAddNewProduct(@ModelAttribute("product") Product product){
+        log.info("add new product");
         try {
             product.setProductImgStr(Base64.getEncoder().encodeToString(product.getMultipartFile().getBytes()));
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("error uploading product image",e.fillInStackTrace());
         }
         productService.saveNewProduct(product);
         return "redirect:/admin/view/products";
@@ -145,11 +164,12 @@ public class AdminController {
     @PostMapping("/adminUpdateProduct")
     public String adminEditProduct(@ModelAttribute("product") Product product){
 
+        log.info("editing product information");
         if(!product.getMultipartFile().isEmpty()){
             try {
                 product.setProductImgStr(Base64.getEncoder().encodeToString(product.getMultipartFile().getBytes()));
             } catch (IOException e) {
-                e.printStackTrace();
+                log.error("error uploading product image",e.fillInStackTrace());
             }
         }else{
             product.setProductImgStr(product.getProductImgStr());

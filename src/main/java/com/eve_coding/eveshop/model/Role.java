@@ -13,13 +13,7 @@ import java.util.Set;
 @Setter
 public class Role {
     @Id
-    @SequenceGenerator(
-            name = "role_sequence",
-            sequenceName = "role_sequence",
-            allocationSize = 1
-    )
     @GeneratedValue(
-            generator = "role_sequence",
             strategy = GenerationType.SEQUENCE
     )
     private Long roleId;

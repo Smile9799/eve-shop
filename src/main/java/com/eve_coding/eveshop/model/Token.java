@@ -22,7 +22,7 @@ public class Token {
     private LocalDateTime createdAt;
     @Column(updatable = false,nullable = false)
     private LocalDateTime expiredAt;
-    @Column(nullable = false)
+
     private LocalDateTime updatedAt;
     @Column(unique = true,updatable = false,nullable = false)
     private String tokenStr;

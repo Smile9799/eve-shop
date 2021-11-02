@@ -18,14 +18,8 @@ import java.util.List;
 public class ShoppingCart {
 
     @Id
-    @SequenceGenerator(
-            name = "cart_sequence",
-            sequenceName = "cart_sequence",
-            allocationSize = 1
-    )
     @GeneratedValue(
-            strategy = GenerationType.SEQUENCE,
-            generator = "cart_sequence"
+            strategy = GenerationType.SEQUENCE
     )
     private Long shoppingCartId;
     private BigDecimal grandTotal;

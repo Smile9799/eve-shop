@@ -33,9 +33,6 @@ public class CheckoutController {
     @Autowired
     private ShoppingCartService shoppingCartService;
 
-    private OrderShippingAddress setOrderShippingAddress(UserShippingAddress shippingAddress){
-        return new OrderShippingAddress(shippingAddress.getUserShippingName(),shippingAddress.getUserShippingCity(),shippingAddress.getUserShippingStreet1(), shippingAddress.getUserShippingStreet2(),shippingAddress.getUserShippingProvince(),shippingAddress.getUserShippingZipCode());
-    }
     @GetMapping("/checkout")
     public String checkout(Model model, Principal principal){
         User user = userService.getUserByEmail(principal.getName());
@@ -108,10 +105,10 @@ public class CheckoutController {
         orderShippingAddress.setOrderShippingAddressZipCode(shippingAddress.getUserShippingZipCode());
         orderShippingAddress.setOrderShippingAddressProvince(shippingAddress.getUserShippingProvince());
 
-        Order order = orderService.createOrder(user,orderBillingAddress,orderShippingAddress);
+        Long orderId = orderService.createOrder(user,orderBillingAddress,orderShippingAddress);
 
         shoppingCartService.clearCart(shoppingCart);
 
-        return "redirect:/orderDetail?id="+order.getOrderId();
+        return "redirect:/orderDetail?id="+orderId;
     }
 }

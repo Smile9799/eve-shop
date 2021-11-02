@@ -2,6 +2,7 @@ package com.eve_coding.eveshop.service;
 
 import com.eve_coding.eveshop.model.*;
 import com.eve_coding.eveshop.repository.OrderRepository;
+import com.eve_coding.eveshop.utils.SendEmail;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,8 @@ public class OrderService {
 
     @Autowired
     private OrderRepository orderRepository;
+    @Autowired
+    private SendEmail sendEmail;
 
     public List<Order> getUserOrders(User user){
         return orderRepository.getOrdersByUser(user);
@@ -25,7 +28,7 @@ public class OrderService {
         return orderRepository.getById(id);
     }
 
-    public synchronized Order createOrder(User user, OrderBillingAddress orderBillingAddress, OrderShippingAddress shippingAddress){
+    public synchronized Long createOrder(User user, OrderBillingAddress orderBillingAddress, OrderShippingAddress shippingAddress){
         ShoppingCart shoppingCart = user.getShoppingCart();
         List<CartItem> cartItemList = shoppingCart.getCartItemList();
         BigDecimal additionalFees = new BigDecimal(String.valueOf((shoppingCart.getGrandTotal().multiply(new BigDecimal("0.15"))).add(new BigDecimal(100)))).setScale(2, RoundingMode.HALF_UP);
@@ -45,8 +48,10 @@ public class OrderService {
 
         shippingAddress.setOrder(order);
         orderBillingAddress.setOrder(order);
-        order = orderRepository.save(order);
-        return order;
+        Long orderId = orderRepository.save(order).getOrderId();
+
+        sendEmail.sendOrderConfirmationEmail(user,orderRepository.getById(orderId));
+        return orderId;
     }
 
     public int getNumberOfOrders(){

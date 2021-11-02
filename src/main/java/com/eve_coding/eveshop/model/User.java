@@ -15,27 +15,27 @@ import java.util.Set;
 public class User {
 
     @Id
-    @SequenceGenerator(
-            name = "user_sequence",
-            sequenceName = "user_sequence",
-            allocationSize = 1
-    )
     @GeneratedValue(
-            generator = "user_sequence",
             strategy = GenerationType.SEQUENCE
     )
     private Long userId;
 
+    @NotBlank
     private String firstName;
 
+    @NotBlank
     private String lastName;
 
+    @NotBlank @Email
     private String email;
 
     @Transient
     private String passwordConfirm;
 
+    @NotBlank
     private String password;
+
+    private boolean isEnabled;
 
     @ManyToMany(
             cascade = CascadeType.ALL,

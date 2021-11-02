@@ -19,14 +19,8 @@ import java.util.List;
 public class CartItem {
 
     @Id
-    @SequenceGenerator(
-            name = "cart_item_sequence",
-            sequenceName = "cart_item_sequence",
-            allocationSize = 1
-    )
     @GeneratedValue(
-            strategy = GenerationType.SEQUENCE,
-            generator = "cart_item_sequence"
+            strategy = GenerationType.SEQUENCE
     )
     private Long id;
     private int qty;

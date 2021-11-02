@@ -26,14 +26,9 @@ public class SecurityService {
         return authentication.isAuthenticated();
     }
 
-    public void autoLogin(String email, String password){
+    public void autoLogin(String email){
         UserDetails userDetails = userDetailsService.loadUserByUsername(email);
-        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(userDetails,password,userDetails.getAuthorities());
-
-        authenticationManager.authenticate(token);
-
-        if (token.isAuthenticated()){
-            SecurityContextHolder.getContext().setAuthentication(token);
-        }
+        Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, userDetails.getPassword(), userDetails.getAuthorities());
+        SecurityContextHolder.getContext().setAuthentication(authentication);
     }
 }

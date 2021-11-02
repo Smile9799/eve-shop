@@ -3,6 +3,7 @@ package com.eve_coding.eveshop.service;
 import com.eve_coding.eveshop.model.Role;
 import com.eve_coding.eveshop.model.User;
 import com.eve_coding.eveshop.repository.UserRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -15,6 +16,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Service
+@Slf4j
 public class UserDetailsService implements org.springframework.security.core.userdetails.UserDetailsService {
 
     @Autowired
@@ -25,9 +27,10 @@ public class UserDetailsService implements org.springframework.security.core.use
     @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         User user = userRepository.getUserByEmail(email);
-        if(null == user)
+        if(null == user) {
+            log.error("user not found");
             throw new UsernameNotFoundException(email);
-
+        }
         Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
         for(Role role : user.getRoles()){
             grantedAuthorities.add(new SimpleGrantedAuthority(role.getRoleName()));

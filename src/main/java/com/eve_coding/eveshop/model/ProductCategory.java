@@ -18,14 +18,8 @@ import java.util.Set;
 public class ProductCategory {
 
     @Id
-    @SequenceGenerator(
-            name = "sequence_category",
-            sequenceName = "sequence_category",
-            allocationSize = 1
-    )
     @GeneratedValue(
-            strategy = GenerationType.SEQUENCE,
-            generator = "sequence_category"
+            strategy = GenerationType.SEQUENCE
     )
     private Long categoryId;
 

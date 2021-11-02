@@ -15,13 +15,7 @@ import javax.persistence.*;
 public class UserShippingAddress {
 
     @Id
-    @SequenceGenerator(
-            name = "user_shipping_address_sequence",
-            sequenceName = "user_shipping_address_sequence",
-            allocationSize = 1
-    )
     @GeneratedValue(
-            generator = "user_shipping_address_sequence",
             strategy = GenerationType.SEQUENCE
     )
     private Long userShippingAddressId;

@@ -2,6 +2,7 @@ package com.eve_coding.eveshop.controller;
 
 import com.eve_coding.eveshop.model.Product;
 import com.eve_coding.eveshop.service.*;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.Optional;
 
 @Controller
+@Slf4j
 public class HomeController {
 
     @Autowired
@@ -35,6 +37,7 @@ public class HomeController {
     @GetMapping("/")
     public String home(Model model){
         model.addAttribute("latestProducts",productService.getLatestProducts());
+        log.info("starting home page");
         return "home";
     }
 
@@ -49,6 +52,8 @@ public class HomeController {
         model.addAttribute("currentPage",pageNo);
         model.addAttribute("totalPages",products.getTotalPages());
         model.addAttribute("totalContent",products.getTotalElements());
+
+        log.info("starting search results page");
         return "search-result-page";
     }
 
@@ -62,12 +67,16 @@ public class HomeController {
         model.addAttribute("currentPage",pageNo);
         model.addAttribute("totalPages",products.getTotalPages());
         model.addAttribute("totalContent",products.getTotalElements());
+
+        log.info("starting shop page");
         return "shop";
     }
 
     @GetMapping("/categories")
     public String shopCategories(Model model){
         model.addAttribute("categoryList",productCategoryService.productCategories());
+
+        log.info("starting categories page");
         return "categories";
     }
 
@@ -80,6 +89,8 @@ public class HomeController {
         model.addAttribute("currentPage",pageNo);
         model.addAttribute("totalPages",products.getTotalPages());
         model.addAttribute("totalContent",products.getTotalElements());
+
+        log.info("starting category shop page");
         return "shop";
     }
     @GetMapping("/product")
@@ -88,6 +99,8 @@ public class HomeController {
 
         model.addAttribute("products",page.getContent());
         model.addAttribute("product",productService.product(productName));
+
+        log.info("starting shop item page");
         return "shop-item";
     }
 }

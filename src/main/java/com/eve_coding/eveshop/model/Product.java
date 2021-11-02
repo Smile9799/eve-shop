@@ -21,13 +21,7 @@ import java.util.Date;
 public class Product {
 
     @Id
-    @SequenceGenerator(
-            name = "product_sequence",
-            sequenceName = "product_sequence",
-            allocationSize = 1
-    )
     @GeneratedValue(
-            generator = "product_sequence",
             strategy = GenerationType.SEQUENCE
     )
     private Long productId;

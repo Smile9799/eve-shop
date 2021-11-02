@@ -16,14 +16,8 @@ import java.awt.print.Book;
 public class ProductToCartItem {
 
     @Id
-    @SequenceGenerator(
-            name = "product_to_cart_item_sequence",
-            sequenceName = "product_to_cart_item_sequence",
-            allocationSize = 1
-    )
     @GeneratedValue(
-            strategy = GenerationType.SEQUENCE,
-            generator = "product_to_cart_item_sequence"
+            strategy = GenerationType.SEQUENCE
     )
     private Long id;
 
